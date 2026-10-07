@@ -17,6 +17,7 @@ const fields = [
 export default function SubmissionForm() {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [revision, setRevision] = useState(0);
   const [answer, setAnswer] = useState<{ values: Record<string, number>; explanation: string } | null>(null);
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -56,6 +57,7 @@ export default function SubmissionForm() {
       return;
     }
 
+    setRevision(previous => previous + 1);
     setAnswer({ values, explanation });
     setSaved(true);
   }
@@ -120,7 +122,7 @@ export default function SubmissionForm() {
           </p>
         )}
       </form>
-      {answer && <ReviewPanel answer={answer} />}
+      {answer && <ReviewPanel key={revision} answer={answer} />}
     </section>
   );
 }

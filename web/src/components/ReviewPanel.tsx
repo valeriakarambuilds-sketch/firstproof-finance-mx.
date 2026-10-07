@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import AIReview from "./AIReview";
 import caseData from "@/data/case.json";
 
 type Answer = {
@@ -67,6 +68,8 @@ export default function ReviewPanel({ answer }: { answer: Answer }) {
       <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
         {answer.explanation}
       </p>
+
+      <AIReview answer={answer} />
 
       <h3>Representa al evaluador humano</h3>
       <p>

@@ -22,3 +22,12 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Lint and production build passed after the update.
 - The LLM connection, deployment and persona test remain pending.
 - Next move: implement the server-side LLM review with validated inputs and protected credentials.
+
+## 2026-10-07 — Real Gemini integration
+- Connected gemini-3.1-flash-lite through a server-side POST route.
+- Validated request size, numeric ranges, explanation length and structured AI output.
+- Confirmed a real AI review in the local interface.
+- Error-case test: entered equityLow = 22; Gemini identified the difference from the reference value of 31.
+- Human scores remain separate from the AI draft.
+- Production AI remains disabled until shared usage limits are configured.
+- Next step: configure production protection, publish and test the public URL.
