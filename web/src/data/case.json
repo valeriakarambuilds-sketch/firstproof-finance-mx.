@@ -1,0 +1,16 @@
+{
+  "id": "aurora-v1",
+  "version": 1,
+  "fictional": true,
+  "company": "Aurora Servicios",
+  "date": "Octubre 2026",
+  "currency": "MXN",
+  "unit": "millones",
+  "ebitda": 8,
+  "debt": 12,
+  "cash": 3,
+  "multipleLow": 5,
+  "multipleHigh": 7,
+  "stressEbitda": 7.2,
+  "source": "Caso educativo inventado. Los múltiplos son supuestos del ejercicio, no datos de mercado verificados."
+}
