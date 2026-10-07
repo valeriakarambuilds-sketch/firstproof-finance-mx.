@@ -1,3 +1,4 @@
+import SubmissionForm from "@/components/SubmissionForm";
 import Link from "next/link";
 import caseData from "@/data/case.json";
 
@@ -78,7 +79,8 @@ export default function Home() {
           </section>
         </div>
         <footer>FirstProof Finance MX · Prototipo educativo · Primera pantalla: todavía sin envío de respuestas ni conexión a IA.</footer>
-      </main>
+      <SubmissionForm />
+</main>
     </div>
   );
 }
