@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import ReviewPanel from "./ReviewPanel";
 
 const fields = [
   ["evLow", "Valor empresa: mínimo"],
@@ -16,11 +17,13 @@ const fields = [
 export default function SubmissionForm() {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [answer, setAnswer] = useState<{ values: Record<string, number>; explanation: string } | null>(null);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setSaved(false);
+    setAnswer(null);
 
     const data = new FormData(event.currentTarget);
     const values: Record<string, number> = {};
@@ -53,6 +56,7 @@ export default function SubmissionForm() {
       return;
     }
 
+    setAnswer({ values, explanation });
     setSaved(true);
   }
 
@@ -71,6 +75,7 @@ export default function SubmissionForm() {
 
       <form onSubmit={submit} onChange={() => {
         setSaved(false);
+    setAnswer(null);
         setError("");
       }}>
         <div className="answer-grid">
@@ -115,6 +120,7 @@ export default function SubmissionForm() {
           </p>
         )}
       </form>
+      {answer && <ReviewPanel answer={answer} />}
     </section>
   );
 }
