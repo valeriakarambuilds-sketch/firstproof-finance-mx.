@@ -45,3 +45,13 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Added diagnostic codes without logging secrets or candidate responses.
 - Local build passed; root cause is still unconfirmed.
 - Next move: inspect production logs, fix the cause, and retest.
+
+## 2026-10-07 — Production fix and verification
+- Production logs showed LIMIT_HTTP_STATUS 403.
+- The Upstash token was read-only. Replaced it with a writable token in Vercel and redeployed.
+- Public AI review succeeded after redeployment.
+- Selecting 2 in all five human criteria produced 10/10 and a provisional next-stage recommendation.
+- Requesting reconsideration suspended the recommendation and disabled the controls.
+- Reconsideration was tested in an incognito browser.
+- The reconsideration is a screen simulation; it is not sent to a person.
+- Next move: run the persona test in a fresh chat and fix the main confusion.
