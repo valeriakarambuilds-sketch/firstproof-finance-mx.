@@ -31,3 +31,11 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Human scores remain separate from the AI draft.
 - Production AI remains disabled until shared usage limits are configured.
 - Next step: configure production protection, publish and test the public URL.
+
+## 2026-10-07 — Production AI limits
+- Added shared Upstash counters: 3 requests per minute and 30 attempts per UTC day across the demo.
+- Production AI pauses if the counter cannot be verified.
+- Counters store no candidate responses or identities.
+- Local production build passed.
+- Next step: verify real AI and error handling at the public URL.
+- Tomorrow's first move: finish mechanical tests and the persona walkthrough.

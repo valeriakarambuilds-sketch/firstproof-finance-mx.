@@ -56,14 +56,60 @@ function reply(body: unknown, status = 200) {
   });
 }
 
-export async function POST(request: Request) {
-  // Live AI is local-only until shared production limits are configured.
-  if (process.env.NODE_ENV !== "development") {
-    return reply({
-      error: "La revisión con IA todavía no está habilitada en esta publicación.",
-    }, 503);
+
+async function checkSharedLimit(): Promise<"allowed" | "minute" | "day" | "unavailable"> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    return process.env.NODE_ENV === "development" ? "allowed" : "unavailable";
   }
 
+  try {
+    const endpoint = new URL(url);
+    if (
+      endpoint.protocol !== "https:" ||
+      !endpoint.hostname.endsWith(".upstash.io") ||
+      endpoint.username || endpoint.password ||
+      endpoint.search || endpoint.hash
+    ) return "unavailable";
+
+    const now = Date.now();
+    const minuteKey = "firstproof:minute:" + Math.floor(now / 60000);
+    const dayKey = "firstproof:day:" + new Date(now).toISOString().slice(0, 10);
+
+    const response = await fetch(new URL("/multi-exec", endpoint), {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([
+        ["INCR", minuteKey],
+        ["EXPIRE", minuteKey, 120],
+        ["INCR", dayKey],
+        ["EXPIRE", dayKey, 172800],
+      ]),
+      cache: "no-store",
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (!response.ok) return "unavailable";
+
+    const result = z.array(z.object({
+      result: z.number().int().nonnegative(),
+    })).length(4).safeParse(await response.json());
+
+    if (!result.success) return "unavailable";
+    if (result.data[2].result > 30) return "day";
+    if (result.data[0].result > 3) return "minute";
+    return "allowed";
+  } catch {
+    return "unavailable";
+  }
+}
+
+export async function POST(request: Request) {
   if (!request.headers.get("content-type")?.includes("application/json")) {
     return reply({ error: "Se requiere información en formato JSON." }, 415);
   }
@@ -115,6 +161,23 @@ export async function POST(request: Request) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return reply({ error: "Falta configurar la conexión con Gemini." }, 503);
+  }
+
+  const limit = await checkSharedLimit();
+  if (limit === "unavailable") {
+    return reply({
+      error: "La IA está pausada porque no se pudo verificar el límite de uso. Puedes continuar con la revisión humana.",
+    }, 503);
+  }
+  if (limit === "minute") {
+    return reply({
+      error: "La demo alcanzó su límite de solicitudes por minuto. Espera un minuto e intenta de nuevo.",
+    }, 429);
+  }
+  if (limit === "day") {
+    return reply({
+      error: "La demo alcanzó su límite diario de IA. Puedes continuar con la revisión humana e intentar después de las 18:00, hora de Ciudad de México.",
+    }, 429);
   }
 
   const expected = {
