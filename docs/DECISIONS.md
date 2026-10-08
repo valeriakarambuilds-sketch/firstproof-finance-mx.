@@ -55,3 +55,12 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Reconsideration was tested in an incognito browser.
 - The reconsideration is a screen simulation; it is not sent to a person.
 - Next move: run the persona test in a fresh chat and fix the main confusion.
+
+## 2026-10-07 — Persona test corrections
+- Synthetic persona Sofía found an outdated notice saying AI was not connected.
+- Updated the notice to describe the working demo.
+- Clarified that the visitor represents the human evaluator and manually selects demo scores.
+- Clarified that oral explanation stays pending without a simulated interview.
+- Production build passed.
+- The 23/27 discrepancy remains unconfirmed because the matching completed form was not shown.
+- Next move: verify the deployed text and repeat the affected persona screens.

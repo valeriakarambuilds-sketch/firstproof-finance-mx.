@@ -78,7 +78,7 @@ export default function Home() {
             <p className="small">Criterios provisionales. La IA ayudará a preparar observaciones; la evaluación y la decisión corresponden a una persona.</p>
           </section>
         </div>
-        <footer>FirstProof Finance MX · Prototipo educativo · Primera pantalla: todavía sin envío de respuestas ni conexión a IA.</footer>
+        <footer>FirstProof Finance MX · Prototipo educativo · Demo con validación de respuestas y revisión con IA real. No envía respuestas a empresas. La evaluación humana y la reconsideración se simulan en esta pantalla.</footer>
       <SubmissionForm />
 </main>
     </div>

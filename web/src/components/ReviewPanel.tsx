@@ -71,7 +71,8 @@ export default function ReviewPanel({ answer }: { answer: Answer }) {
 
       <AIReview answer={answer} />
 
-      <h3>Representa al evaluador humano</h3>
+      <h3>Evaluación humana de demostración</h3>
+      <p>En esta sección cambias de papel: representas al evaluador, no al candidato. Tú eliges las puntuaciones para probar la demo; la IA no las asigna. Deja la explicación oral en Pendiente si no has simulado una entrevista. Estas puntuaciones no representan una evaluación real.</p>
       <p>
         En esta demo tú eliges las puntuaciones. En un proceso real las asignaría
         un evaluador después de revisar la evidencia y hacer la entrevista.
