@@ -64,3 +64,13 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Production build passed.
 - The 23/27 discrepancy remains unconfirmed because the matching completed form was not shown.
 - Next move: verify the deployed text and repeat the affected persona screens.
+
+## 2026-10-07 — Persona re-test results
+- Synthetic persona Sofía understood the corrected notice: response validation and real AI review work; human evaluation and reconsideration are simulated.
+- She understood that the visitor manually selects demo scores while representing the evaluator.
+- She understood that oral explanation remains pending without a simulated interview.
+- The updated evaluator text was visible on the published page.
+- The automatic comparison correctly flagged entered 41.1 against reference 41.4.
+- The earlier 23/27 discrepancy remains unresolved; the matching completed form was not supplied.
+- These findings are synthetic feedback, not validation by a real user.
+- Next move: prepare the persona-test PDF and complete the remaining delivery evidence.
