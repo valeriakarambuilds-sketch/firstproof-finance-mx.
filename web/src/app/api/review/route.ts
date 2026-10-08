@@ -62,6 +62,7 @@ async function checkSharedLimit(): Promise<"allowed" | "minute" | "day" | "unava
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (!url || !token) {
+    console.warn("LIMIT_CONFIG_MISSING", { urlPresent: Boolean(url), tokenPresent: Boolean(token) });
     return process.env.NODE_ENV === "development" ? "allowed" : "unavailable";
   }
 
@@ -72,7 +73,10 @@ async function checkSharedLimit(): Promise<"allowed" | "minute" | "day" | "unava
       !endpoint.hostname.endsWith(".upstash.io") ||
       endpoint.username || endpoint.password ||
       endpoint.search || endpoint.hash
-    ) return "unavailable";
+    ) {
+      console.warn("LIMIT_URL_INVALID");
+      return "unavailable";
+    }
 
     const now = Date.now();
     const minuteKey = "firstproof:minute:" + Math.floor(now / 60000);
@@ -94,17 +98,24 @@ async function checkSharedLimit(): Promise<"allowed" | "minute" | "day" | "unava
       signal: AbortSignal.timeout(5000),
     });
 
-    if (!response.ok) return "unavailable";
+    if (!response.ok) {
+      console.warn("LIMIT_HTTP_STATUS", response.status);
+      return "unavailable";
+    }
 
     const result = z.array(z.object({
       result: z.number().int().nonnegative(),
     })).length(4).safeParse(await response.json());
 
-    if (!result.success) return "unavailable";
+    if (!result.success) {
+      console.warn("LIMIT_RESPONSE_INVALID");
+      return "unavailable";
+    }
     if (result.data[2].result > 30) return "day";
     if (result.data[0].result > 3) return "minute";
     return "allowed";
-  } catch {
+  } catch (error) {
+    console.warn("LIMIT_CONNECTION_FAILED", error instanceof Error ? error.name : "Unknown");
     return "unavailable";
   }
 }

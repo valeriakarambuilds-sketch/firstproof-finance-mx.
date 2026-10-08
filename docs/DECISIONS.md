@@ -39,3 +39,9 @@ Remaining: Blueprint reconciliation, USER research, budget authorization, API mo
 - Local production build passed.
 - Next step: verify real AI and error handling at the public URL.
 - Tomorrow's first move: finish mechanical tests and the persona walkthrough.
+
+## 2026-10-07 — Counter connection diagnosis
+- Public AI test remained paused after updating the Upstash token.
+- Added diagnostic codes without logging secrets or candidate responses.
+- Local build passed; root cause is still unconfirmed.
+- Next move: inspect production logs, fix the cause, and retest.
